@@ -1,0 +1,82 @@
+/* FlowFabric Brand Colors for pkgdown site */
+:root {
+  --ff-primary: #66CCFF;
+  --ff-secondary: #9FB9C6;
+  --ff-accent: #FFCC66;
+  --ff-text: #1A1A1A;
+}
+
+body {
+  font-family: 'Fira Sans', Arial, sans-serif;
+  color: var(--ff-text);
+  background: #fff;
+}
+
+a, .navbar a, .nav-link {
+  color: #52b8eb;
+  transition: color 0.2s;
+}
+a:hover, .navbar a:hover, .nav-link:hover {
+  color: var(--ff-primary);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--ff-text);
+  font-family: 'Fira Sans', Arial, sans-serif;
+}
+
+.navbar, .navbar-default, .navbar-light {
+  background: var(--ff-primary) !important;
+  color: var(--ff-text) !important;
+}
+
+.navbar-brand, .navbar-nav > li > a {
+  color: var(--ff-text) !important;
+  font-weight: 600;
+}
+
+.btn, .btn-primary {
+  background: var(--ff-primary);
+  border-color: var(--ff-primary);
+  color: var(--ff-text);
+  font-weight: 600;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(102, 204, 255, 0.2);
+  transition: all 0.2s;
+}
+.btn:hover, .btn-primary:hover {
+  background: #52b8eb;
+  border-color: #52b8eb;
+}
+
+pre, code {
+  background: #f8f8f8;
+  color: #222;
+  border-radius: 4px;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #f6fbfd;
+}
+
+/* Accent for highlights */
+.mark, mark {
+  background: var(--ff-accent);
+  color: var(--ff-text);
+}
+
+/* Footer */
+footer {
+  border-top: 2px solid #f0f0f0;
+  color: #666;
+  font-size: 14px;
+  padding: 30px 20px;
+  text-align: center;
+}
+footer a {
+  color: #52b8eb;
+  font-weight: 500;
+}
+footer a:hover {
+  color: var(--ff-primary);
+}

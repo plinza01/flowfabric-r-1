@@ -1,0 +1,21 @@
+Package: flowfabricr
+Type: Package
+Title: R Client for FlowFabric API
+Version: 0.1.0
+Authors@R: person("Mike", "Johnson", email = "mjohnson@lynker.com", role = c("aut", "cre"))
+Description: High-performance R client for the FlowFabric REST API, including JWT authentication (leveraging and improving hfutils). Designed for expert R users.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 3.5.0)
+Imports:
+    httr2,
+    arrow,
+    tibble,
+    hfutils
+Remotes:
+    lynker-spatial/hfutils
+Suggests:
+    testthat
+VignetteBuilder: knitr
+RoxygenNote: 7.3.2

@@ -1,0 +1,47 @@
+template:
+  bootstrap: 5
+  bootswatch: flatly
+  bslib:
+    primary: "#0072B2"
+    base_font: {google: "Fira Sans"}
+    heading_font: {google: "Fira Sans"}
+    code_font: {google: "Fira Mono"}
+
+includes:
+  in_header: docs/flowfabric-theme.css
+
+navbar:
+  structure:
+    left:
+      - home
+      - reference
+      - articles
+      - news
+  title: "flowfabricr"
+  type: "light"
+reference:
+  - title: "API Client"
+    desc: "Core functions for interacting with the FlowFabric API."
+    contents:
+      - flowfabric_list_datasets
+      - flowfabric_streamflow_estimate
+      - flowfabric_streamflow_query
+      - flowfabric_ratings_query
+      - flowfabric_stage_query
+      - flowfabric_get_token
+      - flowfabric_token
+      - flowfabricr
+  - title: "HTTP Utilities"
+    contents:
+      - flowfabric_get
+      - flowfabric_post
+articles:
+  - title: "Getting Started"
+    contents:
+      - getting-started
+  - title: "Authentication"
+    contents:
+      - authentication
+  - title: "Advanced Usage"
+    contents:
+      - advanced

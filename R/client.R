@@ -56,7 +56,7 @@ flowfabric_list_datasets <- function() {
 #' @param params Optional. List of query parameters (see API docs)
 #' @param ... Optional. Additional parameters (passed as named list)
 #' @param verbose Optional. Use TRUE for debugging purposes
-#' @return Data frame or parsed JSON
+#' @return Returns a data frame or parsed JSON
 ##' @examples
 ##' \dontrun{
 ##' result <- flowfabric_streamflow_query(
@@ -188,6 +188,24 @@ flowfabric_streamflow_query <- function(dataset_id, feature_ids = NULL, start_ti
   } else {
     stop("Unsupported content type: ", content_type)
   }
+}
+
+##' Estimate streamflow
+#' @param dataset_id Dataset identifier
+#' @param params List of query parameters (see API docs)
+#' @param token Optional. Bearer token. If NULL, will use flowfabric_get_token()
+#' @param ... Optional. Additional parameters (passed as named list)
+#' @param verbose Optional. Use TRUE for debugging purposes
+#' @return Returns a list
+##' @examples
+##' \dontrun{
+##' result <- flowfabric_streamflow_estimate(dataset_id, params)
+##' }
+#' @export
+flowfabric_streamflow_estimate <- function(dataset_id, params = NULL, token = NULL, ..., verbose = FALSE) {
+  # these lines are just to make the function return a list - just skeleton code rn
+  output <- list("1", "2", "3")
+  return(output)
 }
 
 ##' Query REM ratings (stage-discharge relationships)

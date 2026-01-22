@@ -4,7 +4,7 @@
 \alias{flowfabric_post}
 \title{Perform a POST request to the FlowFabric API}
 \usage{
-flowfabric_post(endpoint, body, token = NULL, ...)
+flowfabric_post(endpoint, body, token = NULL, ..., verbose = FALSE)
 }
 \arguments{
 \item{endpoint}{API endpoint (e.g., "/v1/datasets/nwm-forecast/streamflow:query")}

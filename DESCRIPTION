@@ -12,10 +12,10 @@ Imports:
     httr2,
     arrow,
     tibble,
-    hfutils
+    hfutils,
+    testthat,
+    knitr
 Remotes:
     lynker-spatial/hfutils
-Suggests:
-    testthat
 VignetteBuilder: knitr
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3

@@ -4,7 +4,7 @@ Title: R Client for FlowFabric API
 Version: 0.1.0
 Authors@R: person("Mike", "Johnson", email = "mjohnson@lynker.com", role = c("aut", "cre"))
 Description: High-performance R client for the FlowFabric REST API, including JWT authentication (leveraging and improving hfutils). Designed for expert R users.
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5.0)
@@ -13,7 +13,9 @@ Imports:
     arrow,
     tibble,
     hfutils,
-    testthat
+    testthat,
+    jsonlite,
+    base64enc
 Suggests:
     knitr,
     rmarkdown

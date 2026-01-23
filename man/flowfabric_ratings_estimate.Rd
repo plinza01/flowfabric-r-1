@@ -2,7 +2,7 @@
 % Please edit documentation in R/client.R
 \name{flowfabric_ratings_estimate}
 \alias{flowfabric_ratings_estimate}
-\title{Estimate REM ratings (stage-discharge relationships)}
+\title{Estimate size of ratings query}
 \usage{
 flowfabric_ratings_estimate(
   feature_ids,
@@ -30,9 +30,10 @@ flowfabric_ratings_estimate(
 Estimated rows, bytes, and would_exceed_limits (boolean)
 }
 \description{
-Estimate REM ratings (stage-discharge relationships)
+Estimate size of ratings query
 }
 \examples{
-\dontrun
+\dontrun{
 ratings <- flowfabric_ratings_estimate(feature_ids = c("101", "1001"), type = "rem")
+}
 }

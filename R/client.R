@@ -1,7 +1,6 @@
 #' List all available datasets
 #' @importFrom flowfabricr flowfabric_post
 #'
-#' @param token Optional. Bearer token. If NULL, will use flowfabric_get_token().
 #' @return A data.frame of datasets
 ##' @examples
 ##' \dontrun{
@@ -346,8 +345,9 @@ flowfabric_streamflow_estimate <- function(dataset_id, feature_ids = NULL, start
 #' @param verbose Use TRUE for debugging purposes
 #' @return Parsed response (Arrow Table, data.frame, or list depending on format)
 ##' @examples
-##' \dontrun
+##' \dontrun{
 ##' ratings <- flowfabric_ratings_query(feature_ids = c("101", "1001"), type = "rem")
+##' }
 ##' @export
 flowfabric_ratings_query <- function(feature_ids, type = "rem", format = "arrow", token = NULL, ..., verbose = FALSE) {
   if (is.null(token)) {
@@ -377,7 +377,7 @@ flowfabric_ratings_query <- function(feature_ids, type = "rem", format = "arrow"
   }
 }
 
-##' Estimate REM ratings (stage-discharge relationships)
+##' Estimate size of ratings query
 #' @param feature_ids Character vector of feature IDs (required)
 #' @param type Ratings type: 'rem' (default) or 'ahps'
 #' @param format Output format: 'json', or 'parquet'
@@ -386,8 +386,9 @@ flowfabric_ratings_query <- function(feature_ids, type = "rem", format = "arrow"
 #' @param verbose Use TRUE for debugging purposes
 #' @return Estimated rows, bytes, and would_exceed_limits (boolean)
 ##' @examples
-##' \dontrun
+##' \dontrun{
 ##' ratings <- flowfabric_ratings_estimate(feature_ids = c("101", "1001"), type = "rem")
+##' }
 ##' @export
 flowfabric_ratings_estimate <- function(feature_ids, type = "rem", format = "json", token = NULL, ..., verbose = FALSE) {
   if (is.null(token)) {
@@ -416,6 +417,8 @@ flowfabric_ratings_estimate <- function(feature_ids, type = "rem", format = "jso
 #' @param dataset_id Dataset identifier
 #' @param params List of query parameters (see API docs)
 #' @param token Optional. Bearer token. If NULL, will use flowfabric_get_token().
+#' @param ... Optional. Additional parameters (passed as named list)
+#' @param verbose Optional. Use TRUE for debugging purposes
 #' @return An Arrow Table
 ##' @examples
 ##' \dontrun{
@@ -467,6 +470,7 @@ flowfabric_healthz <- function(token = NULL, verbose = FALSE) {
 #' Retrieve Bearer Token
 #'
 #' This function retrieves a Bearer token using `hfutils::lynker_spatial_auth`.
+#' @param force_refresh Will always refresh the token if TRUE
 #' @return A character string containing the Bearer token.
 ##' @examples
 ##' \dontrun{

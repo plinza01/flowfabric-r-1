@@ -6,9 +6,6 @@
 \usage{
 flowfabric_list_datasets()
 }
-\arguments{
-\item{token}{Optional. Bearer token. If NULL, will use flowfabric_get_token().}
-}
 \value{
 A data.frame of datasets
 }

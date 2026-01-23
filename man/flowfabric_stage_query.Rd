@@ -18,6 +18,10 @@ flowfabric_stage_query(
 \item{params}{List of query parameters (see API docs)}
 
 \item{token}{Optional. Bearer token. If NULL, will use flowfabric_get_token().}
+
+\item{...}{Optional. Additional parameters (passed as named list)}
+
+\item{verbose}{Optional. Use TRUE for debugging purposes}
 }
 \value{
 An Arrow Table

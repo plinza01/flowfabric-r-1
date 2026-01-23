@@ -11,4 +11,5 @@
 #' @importFrom arrow read_ipc_stream
 #' @importFrom tibble as_tibble
 #' @importFrom testthat test_that expect_true skip_on_cran
+#' @importFrom utils capture.output str
 NULL

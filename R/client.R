@@ -332,9 +332,9 @@ flowfabric_streamflow_estimate <- function(dataset_id, feature_ids = NULL, start
       message("[flowfabric_streamflow_estimate] Auto-populated params from catalog.")
     }
   }
-  endpoint <- paste0("/v1/datasets/", dataset_id, "/streamflow:estimate")
+  endpoint <- paste0("/v1/datasets/", dataset_id, "/streamflow?estimate=TRUE")
   resp <- flowfabric_post(endpoint, body = query_params, token = token, verbose = verbose)
-  # handle response here
+  return(httr2::resp_body_json(resp))
 }
 
 ##' Query REM ratings (stage-discharge relationships)
@@ -404,7 +404,7 @@ flowfabric_ratings_estimate <- function(feature_ids, type = "rem", format = "jso
   if (length(dots) > 0) {
     params <- c(params, dots)
   }
-  endpoint <- "/v1/ratings:estimate"
+  endpoint <- "/v1/ratings?estimate=TRUE"
   resp <- flowfabric_post(endpoint, body = params, token = token, verbose = verbose)
   if (verbose) message("[flowfabric_ratings_estimate] Request body: ", paste(capture.output(str(params)), collapse = " "))
   if (verbose) message("[flowfabric_ratings_estimate] Response status: ", httr2::resp_status(resp))

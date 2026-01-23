@@ -6,6 +6,10 @@
 \usage{
 flowfabric_streamflow_estimate(
   dataset_id,
+  feature_ids = NULL,
+  start_time = NULL,
+  end_time = NULL,
+  issue_time = NULL,
   params = NULL,
   token = NULL,
   ...,
@@ -14,6 +18,14 @@ flowfabric_streamflow_estimate(
 }
 \arguments{
 \item{dataset_id}{Dataset identifier}
+
+\item{feature_ids}{Optional. Character vector of feature IDs}
+
+\item{start_time}{Optional. Start time of desired data}
+
+\item{end_time}{Optional. End time of desired data}
+
+\item{issue_time}{Optional. Issue time for query parameters}
 
 \item{params}{List of query parameters (see API docs)}
 
@@ -31,6 +43,15 @@ Estimate streamflow
 }
 \examples{
 \dontrun{
-result <- flowfabric_streamflow_estimate(dataset_id, params)
+result <- flowfabric_streamflow_estimate(dataset_id, params = list(
+  query_mode = "run",
+  feature_ids = c("101"),
+  issue_time = "latest",
+  scope = "features",
+  lead_start = 0,
+  lead_end = 0,
+  format = "arrow"
+  )
+)
 }
 }

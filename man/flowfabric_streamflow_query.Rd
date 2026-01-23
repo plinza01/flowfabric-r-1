@@ -27,6 +27,8 @@ flowfabric_streamflow_query(
 
 \item{issue_time}{Optional. Issue time for query parameters}
 
+\item{token}{Optional. Bearer token. If NULL, will use get_bearer_token().}
+
 \item{...}{Optional. Additional parameters (passed as named list)}
 
 \item{params}{Optional. List of query parameters (see API docs)}

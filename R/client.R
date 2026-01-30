@@ -1,6 +1,7 @@
 #' List all available datasets
 #' @importFrom flowfabricr flowfabric_post
-#'
+
+#' @param token Optional. Bearer token. If NULL, will use get_bearer_token().
 #' @return A data.frame of datasets
 ##' @examples
 ##' \dontrun{
@@ -370,7 +371,7 @@ flowfabric_stage_query <- function(dataset_id, params = NULL, token = NULL, ...,
 
 #' Get dataset details from catalog
 #'
-#' Wrapper for GET /v1/datasets/{dataset_id} returning parsed JSON dataset object.
+#' Wrapper for `GET /v1/datasets/\{dataset_id\}` returning parsed JSON dataset object.
 #' @param dataset_id Dataset identifier
 #' @param token Optional Bearer token. If NULL, will use `get_bearer_token()`
 #' @param verbose Logical; print debug messages
@@ -393,7 +394,7 @@ flowfabric_get_dataset <- function(dataset_id, token = NULL, verbose = FALSE) {
 
 #' Get latest run for a dataset
 #'
-#' Wrapper for GET /v1/datasets/{dataset_id}/runs/latest returning parsed JSON.
+#' Wrapper for `GET /v1/datasets/\{dataset_id\}/runs/latest` returning parsed JSON.
 #' @param dataset_id Dataset identifier
 #' @param token Optional Bearer token. If NULL, will use `get_bearer_token()`
 #' @param verbose Logical; print debug messages
@@ -416,7 +417,7 @@ flowfabric_get_latest_run <- function(dataset_id, token = NULL, verbose = FALSE)
 
 #' Get a specific run by issue_time
 #'
-#' Wrapper for GET /v1/datasets/{dataset_id}/runs/{issue_time} returning parsed JSON.
+#' Wrapper for `GET /v1/datasets/\{dataset_id\}/runs/\{issue_time\}` returning parsed JSON.
 #' @param dataset_id Dataset identifier
 #' @param issue_time Issue time string (e.g., "2026012316")
 #' @param token Optional Bearer token. If NULL, will use `get_bearer_token()`
@@ -440,8 +441,8 @@ flowfabric_get_run <- function(dataset_id, issue_time, token = NULL, verbose = F
 
 #' Estimate streamflow result size and get export_url when available
 #'
-#' Wrapper for the /v1/datasets/{dataset_id}/streamflow endpoint (estimate mode).
-#' Calls `POST /v1/datasets/{dataset_id}/streamflow?estimate=true` and returns the parsed JSON estimate object (list).
+#' Wrapper for the /v1/datasets/\{dataset_id\}/streamflow endpoint (estimate mode).
+#' Calls `POST /v1/datasets/\{dataset_id\}/streamflow?estimate=true` and returns the parsed JSON estimate object (list).
 #' @param dataset_id Dataset identifier
 #' @param params List of query parameters (see API docs)
 #' @param token Optional Bearer token. If NULL, will use `get_bearer_token()`
@@ -480,7 +481,7 @@ flowfabric_streamflow_estimate <- function(dataset_id, params = list(), token = 
 #' @param verbose Logical; print debug messages
 #' @examples
 #' \dontrun{
-#' polygons <- flowfabric_inundation_ids(params=auto_streamflow_params("nws_owp_nwm_analysis))
+#' polygons <- flowfabric_inundation_ids(params=auto_streamflow_params("nws_owp_nwm_analysis"))
 #' }
 #' @export
 flowfabric_inundation_ids <- function(params = list(), token = NULL, verbose = FALSE) {

@@ -21,8 +21,8 @@ flowfabric_streamflow_estimate(
 \item{verbose}{Logical; print debug messages}
 }
 \description{
-Wrapper for the /v1/datasets/{dataset_id}/streamflow endpoint (estimate mode).
-Calls `POST /v1/datasets/{dataset_id}/streamflow?estimate=true` and returns the parsed JSON estimate object (list).
+Wrapper for the /v1/datasets/\{dataset_id\}/streamflow endpoint (estimate mode).
+Calls `POST /v1/datasets/\{dataset_id\}/streamflow?estimate=true` and returns the parsed JSON estimate object (list).
 }
 \examples{
 \dontrun{

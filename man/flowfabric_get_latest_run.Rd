@@ -14,7 +14,7 @@ flowfabric_get_latest_run(dataset_id, token = NULL, verbose = FALSE)
 \item{verbose}{Logical; print debug messages}
 }
 \description{
-Wrapper for GET /v1/datasets/{dataset_id}/runs/latest returning parsed JSON.
+Wrapper for `GET /v1/datasets/\{dataset_id\}/runs/latest` returning parsed JSON.
 }
 \examples{
 \dontrun{

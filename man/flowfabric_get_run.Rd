@@ -16,7 +16,7 @@ flowfabric_get_run(dataset_id, issue_time, token = NULL, verbose = FALSE)
 \item{verbose}{Logical; print debug messages}
 }
 \description{
-Wrapper for GET /v1/datasets/{dataset_id}/runs/{issue_time} returning parsed JSON.
+Wrapper for `GET /v1/datasets/\{dataset_id\}/runs/\{issue_time\}` returning parsed JSON.
 }
 \examples{
 \dontrun{

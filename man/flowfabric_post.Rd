@@ -14,6 +14,8 @@ flowfabric_post(endpoint, body, token = NULL, ..., verbose = FALSE)
 \item{token}{Optional. Bearer token. If NULL, will use flowfabric_get_token().}
 
 \item{...}{Additional httr2::request() options}
+
+\item{verbose}{Use TRUE for debugging purposes}
 }
 \value{
 httr2 response object

@@ -1,7 +1,7 @@
 #' List all available datasets
 #' @importFrom flowfabricr flowfabric_post
-#'
-#' @param token Optional. Bearer token. If NULL, will use flowfabric_get_token().
+
+#' @param token Optional. Bearer token. If NULL, will use get_bearer_token().
 #' @return A data.frame of datasets
 ##' @examples
 ##' \dontrun{
@@ -47,6 +47,38 @@ flowfabric_list_datasets <- function(token = NULL) {
   as.data.frame(do.call(rbind, lapply(json_flat, as.data.frame, stringsAsFactors = FALSE)))
 }
 
+##' Query streamflow
+#' @param dataset_id Dataset identifier
+#' @param feature_ids Optional. Character vector of feature IDs
+#' @param start_time Optional. Start time of desired data
+#' @param end_time Optional. End time of desired data
+#' @param issue_time Optional. Issue time for query parameters
+#' @param token Optional. Bearer token. If NULL, will use get_bearer_token().
+#' @param params Optional. List of query parameters (see API docs)
+#' @param ... Optional. Additional parameters (passed as named list)
+#' @param verbose Optional. Use TRUE for debugging purposes
+#' @return Returns a data frame or parsed JSON
+##' @examples
+##' \dontrun{
+##' result <- flowfabric_streamflow_query(
+##'   "nws_owp_nwm_analysis",
+##'   params = params
+##' )
+##'
+##' result <- flowfabric_streamflow_query(
+##'   "nws_owp_nwm_short_range",
+##'   feature_ids = c("101", "1001"),
+##'   issue_time = "latest"
+##' )
+##'
+##' result <- flowfabric_streamflow_query(
+##'   "nws_owp_nwm_reanalysis_3_0",
+##'   feature_ids = c("101", "1001"),
+##'   start_time = "2018-01-01",
+##'   end_time = "2018-01-31"
+##' )
+##' }
+#' @export
 flowfabric_streamflow_query <- function(dataset_id, feature_ids = NULL, start_time = NULL, end_time = NULL, issue_time = NULL, token = NULL, ..., params = NULL, verbose = FALSE) {
   # If params is provided, use it directly (backward compatibility)
   if (!is.null(params)) {
@@ -224,20 +256,19 @@ flowfabric_streamflow_query <- function(dataset_id, feature_ids = NULL, start_ti
   }
 }
 
-
 ##' Query REM ratings (stage-discharge relationships)
 #' @param feature_ids Character vector of feature IDs (required)
 #' @param type Ratings type: 'rem' (default) or 'ahps'
 #' @param format Output format: 'arrow' (default), 'json', or 'parquet'
 #' @param token Optional. Bearer token. If NULL, will use flowfabric_get_token().
 #' @param ... Additional parameters (passed as named list)
+#' @param verbose Use TRUE for debugging purposes
 #' @return Parsed response (Arrow Table, data.frame, or list depending on format)
 #' @examples
 #' \dontrun{
 #' ratings <- flowfabric_ratings_query(feature_ids = c("101", "1001"), type = "rem")
 #' }
 #' @export
-
 flowfabric_ratings_query <- function(feature_ids, type = "rem", format = "arrow", token = NULL, ..., verbose = FALSE) {
   if (is.null(token)) {
     token <- get_bearer_token()
@@ -266,11 +297,48 @@ flowfabric_ratings_query <- function(feature_ids, type = "rem", format = "arrow"
   }
 }
 
-#' Query stage data (Arrow IPC)
-#'
+##' Estimate size of ratings query
+#' @param feature_ids Character vector of feature IDs (required)
+#' @param type Ratings type: 'rem' (default) or 'ahps'
+#' @param format Output format: 'json', or 'parquet'
+#' @param token Optional. Bearer token. If NULL, will use flowfabric_get_token().
+#' @param ... Additional parameters (passed as named list)
+#' @param verbose Use TRUE for debugging purposes
+#' @return Estimated rows, bytes, and would_exceed_limits (boolean)
+##' @examples
+##' \dontrun{
+##' ratings <- flowfabric_ratings_estimate(feature_ids = c("101", "1001"), type = "rem")
+##' }
+##' @export
+flowfabric_ratings_estimate <- function(feature_ids, type = "rem", format = "json", token = NULL, ..., verbose = FALSE) {
+  if (is.null(token)) {
+    token <- get_bearer_token()
+    if (verbose) message("[flowfabric_ratings_estimate] Using token from get_bearer_token()")
+  }
+  params <- list(
+    feature_ids = feature_ids,
+    type = type,
+    format = format
+  )
+  # Add any additional params
+  dots <- list(...)
+  if (length(dots) > 0) {
+    params <- c(params, dots)
+  }
+  endpoint <- "/v1/ratings?estimate=TRUE"
+  resp <- flowfabric_post(endpoint, body = params, token = token, verbose = verbose)
+  if (verbose) message("[flowfabric_ratings_estimate] Request body: ", paste(capture.output(str(params)), collapse = " "))
+  if (verbose) message("[flowfabric_ratings_estimate] Response status: ", httr2::resp_status(resp))
+  if (verbose) message("[flowfabric_ratings_estimate] Parsing response as JSON.")
+  return(httr2::resp_body_json(resp))
+}
+
+##' Query stage data (Arrow IPC)
 #' @param dataset_id Dataset identifier
 #' @param params List of query parameters (see API docs)
 #' @param token Optional. Bearer token. If NULL, will use flowfabric_get_token().
+#' @param ... Optional. Additional parameters (passed as named list)
+#' @param verbose Optional. Use TRUE for debugging purposes
 #' @return An Arrow Table
 ##' @examples
 ##' \dontrun{
@@ -301,66 +369,106 @@ flowfabric_stage_query <- function(dataset_id, params = NULL, token = NULL, ...,
   arrow::read_ipc_stream(httr2::resp_body_raw(resp))
 }
 
-
 #' Get dataset details from catalog
 #'
-#' Wrapper for GET /v1/datasets/{dataset_id} returning parsed JSON dataset object.
+#' Wrapper for `GET /v1/datasets/\{dataset_id\}` returning parsed JSON dataset object.
 #' @param dataset_id Dataset identifier
 #' @param token Optional Bearer token. If NULL, will use `get_bearer_token()`
 #' @param verbose Logical; print debug messages
+#' @examples
+#' \dontrun{
+#' dataset <- flowfabric_get_dataset("nws_owp_nwm_analysis")
+#' }
 #' @export
 flowfabric_get_dataset <- function(dataset_id, token = NULL, verbose = FALSE) {
-  if (is.null(token)) token <- get_bearer_token()
+  if (is.null(token)) {
+    token <- get_bearer_token()
+    if (verbose) message("[flowfabric_get_dataset] Using token from get_bearer_token()")
+  }
   endpoint <- paste0("/v1/datasets/", dataset_id)
   resp <- flowfabric_get(endpoint, token = token, verbose = verbose)
+  if (verbose) message("[flowfabric_get_dataset] Parsing response as JSON.")
   httr2::resp_body_json(resp)
 }
 
 
 #' Get latest run for a dataset
 #'
-#' Wrapper for GET /v1/datasets/{dataset_id}/runs/latest returning parsed JSON.
+#' Wrapper for `GET /v1/datasets/\{dataset_id\}/runs/latest` returning parsed JSON.
 #' @param dataset_id Dataset identifier
 #' @param token Optional Bearer token. If NULL, will use `get_bearer_token()`
 #' @param verbose Logical; print debug messages
+#' @examples
+#' \dontrun{
+#' latest <- flowfabric_get_latest_run("nws_owp_nwm_analysis")
+#' }
 #' @export
 flowfabric_get_latest_run <- function(dataset_id, token = NULL, verbose = FALSE) {
-  if (is.null(token)) token <- get_bearer_token()
+  if (is.null(token)) {
+    token <- get_bearer_token()
+    if (verbose) message("[flowfabric_get_latest_run] Using token from get_bearer_token()")
+  }
   endpoint <- paste0("/v1/datasets/", dataset_id, "/runs/latest")
   resp <- flowfabric_get(endpoint, token = token, verbose = verbose)
+  if (verbose) message("[flowfabric_get_latest_run] Parsing response as JSON.")
   httr2::resp_body_json(resp)
 }
 
 
 #' Get a specific run by issue_time
 #'
-#' Wrapper for GET /v1/datasets/{dataset_id}/runs/{issue_time} returning parsed JSON.
+#' Wrapper for `GET /v1/datasets/\{dataset_id\}/runs/\{issue_time\}` returning parsed JSON.
 #' @param dataset_id Dataset identifier
 #' @param issue_time Issue time string (e.g., "2026012316")
 #' @param token Optional Bearer token. If NULL, will use `get_bearer_token()`
 #' @param verbose Logical; print debug messages
+#' @examples
+#' \dontrun{
+#' recent_run <- flowfabric_get_run("nws_owp_nwm_analysis", issue_time = "2026010514")
+#' }
 #' @export
 flowfabric_get_run <- function(dataset_id, issue_time, token = NULL, verbose = FALSE) {
-  if (is.null(token)) token <- get_bearer_token()
+  if (is.null(token)) {
+    token <- get_bearer_token()
+    if (verbose) message("[flowfabric_get_run] Using token from get_bearer_token()")
+  }
   endpoint <- paste0("/v1/datasets/", dataset_id, "/runs/", issue_time)
   resp <- flowfabric_get(endpoint, token = token, verbose = verbose)
+  if (verbose) message("[flowfabric_get_run] Parsing response as JSON.")
   httr2::resp_body_json(resp)
 }
 
 
 #' Estimate streamflow result size and get export_url when available
 #'
-#' Wrapper for the /v1/datasets/{dataset_id}/streamflow endpoint (estimate mode).
-#' Calls `POST /v1/datasets/{dataset_id}/streamflow?estimate=true` and returns the parsed JSON estimate object (list).
+#' Wrapper for the /v1/datasets/\{dataset_id\}/streamflow endpoint (estimate mode).
+#' Calls `POST /v1/datasets/\{dataset_id\}/streamflow?estimate=true` and returns the parsed JSON estimate object (list).
 #' @param dataset_id Dataset identifier
 #' @param params List of query parameters (see API docs)
 #' @param token Optional Bearer token. If NULL, will use `get_bearer_token()`
 #' @param verbose Logical; print debug messages
+#' @examples
+#' \dontrun{
+#' result <- flowfabric_streamflow_estimate(dataset_id, params = list(
+#'   query_mode = "run",
+#'   feature_ids = c("101"),
+#'   issue_time = "latest",
+#'   scope = "features",
+#'   lead_start = 0,
+#'   lead_end = 0,
+#'   format = "arrow"
+#'   )
+#' )
+#' }
 #' @export
 flowfabric_streamflow_estimate <- function(dataset_id, params = list(), token = NULL, verbose = FALSE) {
-  if (is.null(token)) token <- get_bearer_token()
+  if (is.null(token)) {
+    token <- get_bearer_token()
+    if (verbose) message("[flowfabric_streamflow_estimate] Using token from get_bearer_token()")
+  }
   endpoint <- paste0("/v1/datasets/", dataset_id, "/streamflow?estimate=true")
   resp <- flowfabric_post(endpoint, body = params, token = token, verbose = verbose)
+  if (verbose) message("[flowfabric_streamflow_estimate] Parsing response as JSON.")
   return(httr2::resp_body_json(resp))
 }
 
@@ -371,11 +479,19 @@ flowfabric_streamflow_estimate <- function(dataset_id, params = list(), token = 
 #' @param params List of query parameters (see API docs)
 #' @param token Optional Bearer token. If NULL, will use `get_bearer_token()`
 #' @param verbose Logical; print debug messages
+#' @examples
+#' \dontrun{
+#' polygons <- flowfabric_inundation_ids(params=auto_streamflow_params("nws_owp_nwm_analysis"))
+#' }
 #' @export
 flowfabric_inundation_ids <- function(params = list(), token = NULL, verbose = FALSE) {
-  if (is.null(token)) token <- get_bearer_token()
+  if (is.null(token)) {
+    token <- get_bearer_token()
+    if (verbose) message("[flowfabric_inundation_ids] Using token from get_bearer_token()")
+  }
   endpoint <- "/v1/inundation-ids"
   resp <- flowfabric_post(endpoint, body = params, token = token, verbose = verbose)
+  if (verbose) message("[flowfabric_inundation_ids] Parsing response as JSON.")
   httr2::resp_body_json(resp)
 }
 
@@ -385,10 +501,18 @@ flowfabric_inundation_ids <- function(params = list(), token = NULL, verbose = F
 #' Wrapper for `GET /healthz` returning parsed JSON (or status object).
 #' @param token Optional Bearer token. If NULL, will use `get_bearer_token()`
 #' @param verbose Logical; print debug messages
+#' @examples
+#' \dontrun{
+#'   health <- flowfabric_healthz()
+#' }
 #' @export
 flowfabric_healthz <- function(token = NULL, verbose = FALSE) {
-  if (is.null(token)) token <- get_bearer_token()
+  if (is.null(token)) {
+    token <- get_bearer_token()
+    if (verbose) message("[flowfabric_healthz] Using token from get_bearer_token()")
+  } 
   resp <- flowfabric_get("/healthz", token = token, verbose = verbose)
+  if (verbose) message("[flowfabric_healthz] Parsing response as JSON.")
   httr2::resp_body_json(resp)
 }
 
@@ -396,6 +520,7 @@ flowfabric_healthz <- function(token = NULL, verbose = FALSE) {
 #' Retrieve Bearer Token
 #'
 #' This function retrieves a Bearer token using `hfutils::lynker_spatial_auth`.
+#' @param force_refresh Will always refresh the token if TRUE
 #' @return A character string containing the Bearer token.
 ##' @examples
 ##' \dontrun{
@@ -411,5 +536,3 @@ get_bearer_token <- function(force_refresh = FALSE) {
     stop("No valid token found. If running in a non-interactive environment, please cache a token or set it explicitly.")
   }
 }
-
-

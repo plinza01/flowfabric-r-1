@@ -1,6 +1,7 @@
 ##' Get a JWT Bearer Token for FlowFabric API
 #'
 #' Uses improved authentication from hfutils to obtain a valid JWT token for API requests.
+#' @param force_refresh Will always refresh the token if TRUE
 #' @return A character string containing the JWT Bearer token
 #' @examples
 #' \dontrun{
@@ -62,6 +63,7 @@ flowfabric_get_token <- function(force_refresh = FALSE) {
 #' Set or get the global token used for authentication. If not set, will attempt to obtain one using flowfabric_get_token().
 
 ## Deprecated: use flowfabric_get_token instead
+#' @param refresh Force refreshes the token if true
 flowfabric_token <- function(refresh = FALSE) {
   .Deprecated("flowfabric_get_token")
   flowfabric_get_token(force_refresh = refresh)

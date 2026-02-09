@@ -7,7 +7,7 @@
 flowfabric_list_datasets(token = NULL)
 }
 \arguments{
-\item{token}{Optional. Bearer token. If NULL, will use flowfabric_get_token().}
+\item{token}{Optional. Bearer token. If NULL, will use get_bearer_token().}
 }
 \value{
 A data.frame of datasets

@@ -21,6 +21,20 @@ flowfabric_streamflow_estimate(
 \item{verbose}{Logical; print debug messages}
 }
 \description{
-Wrapper for the /v1/datasets/{dataset_id}/streamflow endpoint (estimate mode).
-Calls `POST /v1/datasets/{dataset_id}/streamflow?estimate=true` and returns the parsed JSON estimate object (list).
+Wrapper for the /v1/datasets/\{dataset_id\}/streamflow endpoint (estimate mode).
+Calls `POST /v1/datasets/\{dataset_id\}/streamflow?estimate=true` and returns the parsed JSON estimate object (list).
+}
+\examples{
+\dontrun{
+result <- flowfabric_streamflow_estimate(dataset_id, params = list(
+  query_mode = "run",
+  feature_ids = c("101"),
+  issue_time = "latest",
+  scope = "features",
+  lead_start = 0,
+  lead_end = 0,
+  format = "arrow"
+  )
+)
+}
 }

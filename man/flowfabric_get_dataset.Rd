@@ -14,5 +14,10 @@ flowfabric_get_dataset(dataset_id, token = NULL, verbose = FALSE)
 \item{verbose}{Logical; print debug messages}
 }
 \description{
-Wrapper for GET /v1/datasets/{dataset_id} returning parsed JSON dataset object.
+Wrapper for `GET /v1/datasets/\{dataset_id\}` returning parsed JSON dataset object.
+}
+\examples{
+\dontrun{
+dataset <- flowfabric_get_dataset("nws_owp_nwm_analysis")
+}
 }

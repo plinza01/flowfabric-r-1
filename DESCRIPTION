@@ -6,20 +6,23 @@ Authors@R: person("Mike", "Johnson", email = "mjohnson@lynker.com", role = c("au
 Author: Mike Johnson [aut]
 Maintainer: Mike Johnson <mjohnson@lynker.com>
 Description: High-performance R client for the FlowFabric REST API, including JWT authentication (leveraging and improving hfutils). Designed for expert R users.
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.5.0)
+Depends: R (>= 4.1.0)
 Imports:
     httr2,
     arrow,
     tibble,
     hfutils,
-    testthat
+    testthat,
+    jsonlite,
+    base64enc,
+    curl
+Suggests:
+    knitr,
+    rmarkdown
 Remotes:
     lynker-spatial/hfutils
-Suggests:
-    testthat,
-    knitr
 VignetteBuilder: knitr
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3

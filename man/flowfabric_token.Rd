@@ -6,6 +6,9 @@
 \usage{
 flowfabric_token(refresh = FALSE)
 }
+\arguments{
+\item{refresh}{Force refreshes the token if true}
+}
 \description{
 Set or get the global token used for authentication. If not set, will attempt to obtain one using flowfabric_get_token().
 }

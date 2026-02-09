@@ -6,6 +6,9 @@
 \usage{
 flowfabric_get_token(force_refresh = FALSE)
 }
+\arguments{
+\item{force_refresh}{Will always refresh the token if TRUE}
+}
 \value{
 A character string containing the JWT Bearer token
 }

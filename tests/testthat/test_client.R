@@ -4,25 +4,50 @@ library(flowfabricr)
 # Test for flowfabric_list_datasets
 
 test_that("flowfabric_list_datasets returns a data frame", {
-  token <- "eyJraWQiOiJLb1dGbVJ0dzg0QlRkZVpIa3FsVGJlbXJjc3ZsS1BWZVQ1dHF6Ym1xT1cwPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiT05tR1FDaFd5OHhnN2J3YTl6dUlxdyIsInN1YiI6IjE4NjFiM2QwLTAwODEtNzA5NC02Nzk3LTdjMTg1ZjgyZTQ3ZSIsImNvZ25pdG86Z3JvdXBzIjpbIkx5bmtlciJdLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLXdlc3QtMi5hbWF6b25hd3MuY29tXC91cy13ZXN0LTJfZW0waEFQcW5TIiwiY29nbml0bzp1c2VybmFtZSI6IjE4NjFiM2QwLTAwODEtNzA5NC02Nzk3LTdjMTg1ZjgyZTQ3ZSIsIm9yaWdpbl9qdGkiOiIzZjI3OTk2MC1mNGM4LTRhZjUtYjc4YS1hYWU5ZmIxMGI5N2YiLCJhdWQiOiIxaGU2dGk1MTA5Yjl0NnIxaWZkNGJyZWNwbCIsImN1c3RvbTpjdXN0b21lcklkIjoiY3VzX1Q2c2pvZ1BRZmFhVUtpIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3Njg5NzExNzIsIm5hbWUiOiJNaWtlIiwiZXhwIjoxNzY4OTc0NzcyLCJpYXQiOjE3Njg5NzExNzIsImp0aSI6IjYyYjI1OWQyLTJmNmMtNDVjMi1hMmY2LTdlYWQ3MGRlN2UzMyIsImVtYWlsIjoibWpvaG5zb25AbHlua2VyLmNvbSJ9.JglgBNaYRFORpnPDh0f5BJe4mcoJVxoimr-aMGQj2qmasHCVxtksXxe1qV-AGGKcnl9B1fsKZzeV9UJUDJqV-_q-Pr82u4UTv2DVonM5OzIv3anK7OCUhq9aIAFWWyO5ZqjjBaSGbtuJrd-MScfm4G9lS8gEOs1hB81O2jL610QTwB9-0gH0-72muUIlRTu1K_UoEGgVO5YmeV_6OVKNubTISRKQgnTlkLEybAnuhM5jR7hXYfuM8oTlT5_JNlY9-tNd93XGgrbVf1zZ58XMgtCM60dqFDsYC4H9qadRsbQUtLtNYKyyZ1FBpjIPSfbUcHrfVlMOfcThsvKUnibjDA"
-  result <- flowfabric_list_datasets(token = token)
+  result <- flowfabric_list_datasets()
   expect_s3_class(result, "data.frame")
+})
+
+# Test for flowfabric_get_dataset
+
+test_that("flowfabric_get_dataset returns a list", {
+  token <- get_bearer_token()
+  dataset_id <- "nws_owp_nwm_reanalysis_3_0"
+  result <- flowfabric_get_dataset(dataset_id, token)
+  expect_type(result, "list")
+})
+
+# Test for flowfabric_get_latest_run
+
+test_that("flowfabric_get_latest_run returns a list", {
+  token <- get_bearer_token()
+  dataset_id <- "nws_owp_nwm_reanalysis_3_0"
+  result <- flowfabric_get_latest_run(dataset_id, token)
+  expect_type(result, "list")
+})
+
+# Test for flowfabric_get_run
+
+test_that("flowfabric_get_run returns a list", {
+  token <- get_bearer_token()
+  dataset_id <- "nws_owp_nwm_reanalysis_3_0"
+  result <- flowfabric_get_run(dataset_id, issue_time = "2026010514", token = token)
+  expect_type(result, "list")
 })
 
 # Test for flowfabric_streamflow_estimate
 
 test_that("flowfabric_streamflow_estimate returns a list", {
-  token <- "eyJraWQiOiJLb1dGbVJ0dzg0QlRkZVpIa3FsVGJlbXJjc3ZsS1BWZVQ1dHF6Ym1xT1cwPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiT05tR1FDaFd5OHhnN2J3YTl6dUlxdyIsInN1YiI6IjE4NjFiM2QwLTAwODEtNzA5NC02Nzk3LTdjMTg1ZjgyZTQ3ZSIsImNvZ25pdG86Z3JvdXBzIjpbIkx5bmtlciJdLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLXdlc3QtMi5hbWF6b25hd3MuY29tXC91cy13ZXN0LTJfZW0waEFQcW5TIiwiY29nbml0bzp1c2VybmFtZSI6IjE4NjFiM2QwLTAwODEtNzA5NC02Nzk3LTdjMTg1ZjgyZTQ3ZSIsIm9yaWdpbl9qdGkiOiIzZjI3OTk2MC1mNGM4LTRhZjUtYjc4YS1hYWU5ZmIxMGI5N2YiLCJhdWQiOiIxaGU2dGk1MTA5Yjl0NnIxaWZkNGJyZWNwbCIsImN1c3RvbTpjdXN0b21lcklkIjoiY3VzX1Q2c2pvZ1BRZmFhVUtpIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3Njg5NzExNzIsIm5hbWUiOiJNaWtlIiwiZXhwIjoxNzY4OTc0NzcyLCJpYXQiOjE3Njg5NzExNzIsImp0aSI6IjYyYjI1OWQyLTJmNmMtNDVjMi1hMmY2LTdlYWQ3MGRlN2UzMyIsImVtYWlsIjoibWpvaG5zb25AbHlua2VyLmNvbSJ9.JglgBNaYRFORpnPDh0f5BJe4mcoJVxoimr-aMGQj2qmasHCVxtksXxe1qV-AGGKcnl9B1fsKZzeV9UJUDJqV-_q-Pr82u4UTv2DVonM5OzIv3anK7OCUhq9aIAFWWyO5ZqjjBaSGbtuJrd-MScfm4G9lS8gEOs1hB81O2jL610QTwB9-0gH0-72muUIlRTu1K_UoEGgVO5YmeV_6OVKNubTISRKQgnTlkLEybAnuhM5jR7hXYfuM8oTlT5_JNlY9-tNd93XGgrbVf1zZ58XMgtCM60dqFDsYC4H9qadRsbQUtLtNYKyyZ1FBpjIPSfbUcHrfVlMOfcThsvKUnibjDA"
+  token <- get_bearer_token()
   dataset_id <- "nws_owp_nwm_analysis"
-  params <- list(param1 = "value1", param2 = "value2")
-  result <- flowfabric_streamflow_estimate(dataset_id, params, token = token)
+  result <- flowfabric_streamflow_estimate(dataset_id, token = token)
   expect_type(result, "list")
 })
 
 # Test for flowfabric_streamflow_query
 
 test_that("flowfabric_streamflow_query returns an Arrow Table", {
-  token <- "eyJraWQiOiJLb1dGbVJ0dzg0QlRkZVpIa3FsVGJlbXJjc3ZsS1BWZVQ1dHF6Ym1xT1cwPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiT05tR1FDaFd5OHhnN2J3YTl6dUlxdyIsInN1YiI6IjE4NjFiM2QwLTAwODEtNzA5NC02Nzk3LTdjMTg1ZjgyZTQ3ZSIsImNvZ25pdG86Z3JvdXBzIjpbIkx5bmtlciJdLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLXdlc3QtMi5hbWF6b25hd3MuY29tXC91cy13ZXN0LTJfZW0waEFQcW5TIiwiY29nbml0bzp1c2VybmFtZSI6IjE4NjFiM2QwLTAwODEtNzA5NC02Nzk3LTdjMTg1ZjgyZTQ3ZSIsIm9yaWdpbl9qdGkiOiIzZjI3OTk2MC1mNGM4LTRhZjUtYjc4YS1hYWU5ZmIxMGI5N2YiLCJhdWQiOiIxaGU2dGk1MTA5Yjl0NnIxaWZkNGJyZWNwbCIsImN1c3RvbTpjdXN0b21lcklkIjoiY3VzX1Q2c2pvZ1BRZmFhVUtpIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3Njg5NzExNzIsIm5hbWUiOiJNaWtlIiwiZXhwIjoxNzY4OTc0NzcyLCJpYXQiOjE3Njg5NzExNzIsImp0aSI6IjYyYjI1OWQyLTJmNmMtNDVjMi1hMmY2LTdlYWQ3MGRlN2UzMyIsImVtYWlsIjoibWpvaG5zb25AbHlua2VyLmNvbSJ9.JglgBNaYRFORpnPDh0f5BJe4mcoJVxoimr-aMGQj2qmasHCVxtksXxe1qV-AGGKcnl9B1fsKZzeV9UJUDJqV-_q-Pr82u4UTv2DVonM5OzIv3anK7OCUhq9aIAFWWyO5ZqjjBaSGbtuJrd-MScfm4G9lS8gEOs1hB81O2jL610QTwB9-0gH0-72muUIlRTu1K_UoEGgVO5YmeV_6OVKNubTISRKQgnTlkLEybAnuhM5jR7hXYfuM8oTlT5_JNlY9-tNd93XGgrbVf1zZ58XMgtCM60dqFDsYC4H9qadRsbQUtLtNYKyyZ1FBpjIPSfbUcHrfVlMOfcThsvKUnibjDA"
+  token <- get_bearer_token()
   dataset_id <- "nws_owp_nwm_analysis"
   params <- list(query_mode = "run", issue_time = "2026010514")
   result <- flowfabric_streamflow_query(dataset_id, params, token = token)
@@ -32,19 +57,41 @@ test_that("flowfabric_streamflow_query returns an Arrow Table", {
 # Test for flowfabric_ratings_query
 
 test_that("flowfabric_ratings_query returns a list", {
-  token <- "eyJraWQiOiJLb1dGbVJ0dzg0QlRkZVpIa3FsVGJlbXJjc3ZsS1BWZVQ1dHF6Ym1xT1cwPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiT05tR1FDaFd5OHhnN2J3YTl6dUlxdyIsInN1YiI6IjE4NjFiM2QwLTAwODEtNzA5NC02Nzk3LTdjMTg1ZjgyZTQ3ZSIsImNvZ25pdG86Z3JvdXBzIjpbIkx5bmtlciJdLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLXdlc3QtMi5hbWF6b25hd3MuY29tXC91cy13ZXN0LTJfZW0waEFQcW5TIiwiY29nbml0bzp1c2VybmFtZSI6IjE4NjFiM2QwLTAwODEtNzA5NC02Nzk3LTdjMTg1ZjgyZTQ3ZSIsIm9yaWdpbl9qdGkiOiIzZjI3OTk2MC1mNGM4LTRhZjUtYjc4YS1hYWU5ZmIxMGI5N2YiLCJhdWQiOiIxaGU2dGk1MTA5Yjl0NnIxaWZkNGJyZWNwbCIsImN1c3RvbTpjdXN0b21lcklkIjoiY3VzX1Q2c2pvZ1BRZmFhVUtpIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3Njg5NzExNzIsIm5hbWUiOiJNaWtlIiwiZXhwIjoxNzY4OTc0NzcyLCJpYXQiOjE3Njg5NzExNzIsImp0aSI6IjYyYjI1OWQyLTJmNmMtNDVjMi1hMmY2LTdlYWQ3MGRlN2UzMyIsImVtYWlsIjoibWpvaG5zb25AbHlua2VyLmNvbSJ9.JglgBNaYRFORpnPDh0f5BJe4mcoJVxoimr-aMGQj2qmasHCVxtksXxe1qV-AGGKcnl9B1fsKZzeV9UJUDJqV-_q-Pr82u4UTv2DVonM5OzIv3anK7OCUhq9aIAFWWyO5ZqjjBaSGbtuJrd-MScfm4G9lS8gEOs1hB81O2jL610QTwB9-0gH0-72muUIlRTu1K_UoEGgVO5YmeV_6OVKNubTISRKQgnTlkLEybAnuhM5jR7hXYfuM8oTlT5_JNlY9-tNd93XGgrbVf1zZ58XMgtCM60dqFDsYC4H9qadRsbQUtLtNYKyyZ1FBpjIPSfbUcHrfVlMOfcThsvKUnibjDA"
+  token <- get_bearer_token()
+  feature_ids <- c("101", "1001")
+  result <- flowfabric_ratings_query(feature_ids, token = token)
+  expect_type(result, "list")
+})
+
+# Test for flowfabric_ratings_estimate
+test_that("flowfabric_ratings_estimate returns a list", {
+  token <- get_bearer_token()
   dataset_id <- "nws_owp_nwm_analysis"
-  params <- list(param1 = "value1")
-  result <- flowfabric_ratings_query(dataset_id, params, token = token)
+  result <- flowfabric_ratings_estimate(dataset_id, token = token)
   expect_type(result, "list")
 })
 
 # Test for flowfabric_stage_query
 
 test_that("flowfabric_stage_query returns an Arrow Table", {
-  token <- "eyJraWQiOiJLb1dGbVJ0dzg0QlRkZVpIa3FsVGJlbXJjc3ZsS1BWZVQ1dHF6Ym1xT1cwPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiT05tR1FDaFd5OHhnN2J3YTl6dUlxdyIsInN1YiI6IjE4NjFiM2QwLTAwODEtNzA5NC02Nzk3LTdjMTg1ZjgyZTQ3ZSIsImNvZ25pdG86Z3JvdXBzIjpbIkx5bmtlciJdLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLXdlc3QtMi5hbWF6b25hd3MuY29tXC91cy13ZXN0LTJfZW0waEFQcW5TIiwiY29nbml0bzp1c2VybmFtZSI6IjE4NjFiM2QwLTAwODEtNzA5NC02Nzk3LTdjMTg1ZjgyZTQ3ZSIsIm9yaWdpbl9qdGkiOiIzZjI3OTk2MC1mNGM4LTRhZjUtYjc4YS1hYWU5ZmIxMGI5N2YiLCJhdWQiOiIxaGU2dGk1MTA5Yjl0NnIxaWZkNGJyZWNwbCIsImN1c3RvbTpjdXN0b21lcklkIjoiY3VzX1Q2c2pvZ1BRZmFhVUtpIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3Njg5NzExNzIsIm5hbWUiOiJNaWtlIiwiZXhwIjoxNzY4OTc0NzcyLCJpYXQiOjE3Njg5NzExNzIsImp0aSI6IjYyYjI1OWQyLTJmNmMtNDVjMi1hMmY2LTdlYWQ3MGRlN2UzMyIsImVtYWlsIjoibWpvaG5zb25AbHlua2VyLmNvbSJ9.JglgBNaYRFORpnPDh0f5BJe4mcoJVxoimr-aMGQj2qmasHCVxtksXxe1qV-AGGKcnl9B1fsKZzeV9UJUDJqV-_q-Pr82u4UTv2DVonM5OzIv3anK7OCUhq9aIAFWWyO5ZqjjBaSGbtuJrd-MScfm4G9lS8gEOs1hB81O2jL610QTwB9-0gH0-72muUIlRTu1K_UoEGgVO5YmeV_6OVKNubTISRKQgnTlkLEybAnuhM5jR7hXYfuM8oTlT5_JNlY9-tNd93XGgrbVf1zZ58XMgtCM60dqFDsYC4H9qadRsbQUtLtNYKyyZ1FBpjIPSfbUcHrfVlMOfcThsvKUnibjDA"
+  token <- get_bearer_token()
   dataset_id <- "nws_owp_nwm_analysis"
   params <- list(param1 = "value1")
   result <- flowfabric_stage_query(dataset_id, params, token = token)
   expect_s3_class(result, "ArrowTable")
+})
+
+# Test for flowfabric_healthz
+
+test_that("flowfabric_healthz returns a list", {
+  token <- get_bearer_token()
+  result <- flowfabric_healthz(token = token)
+  expect_type(result, "list")
+})
+
+# Test for get_bearer_token
+
+test_that("get_bearer_token returns a string", {
+  token <- get_bearer_token()
+  expect_type(token, "character")
 })

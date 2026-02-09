@@ -28,12 +28,13 @@ flowfabric_get <- function(endpoint, token = NULL, ...) {
 #' @param endpoint API endpoint (e.g., "/v1/datasets/nwm-forecast/streamflow")
 #' @param body List. JSON body for the request.
 #' @param token Optional. Bearer token. If NULL, will use flowfabric_get_token().
+#' @param ... Additional httr2::request() options
+#' @param verbose Use TRUE for debugging purposes
 #' @examples
 #' \dontrun{
 #' # POST request to a FlowFabric endpoint
 #' resp <- flowfabric_post("/datasets", body = list(name = "test"), token = flowfabric_get_token())
 #' }
-#' @param ... Additional httr2::request() options
 #' @return httr2 response object
 #' @export
 flowfabric_post <- function(endpoint, body, token = NULL, ..., verbose = FALSE) {

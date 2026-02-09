@@ -66,7 +66,7 @@ flowfabric_refresh_token() # Forces re-authentication and updates cached token
 You can always pass a token explicitly:
 ```r
 token <- hfutils::lynker_spatial_auth()$id_token
-tbl <- flowfabric_streamflow_query("nwm-nws_owp_nwm_analysis", feature_ids = c("101"), token = token)
+tbl <- flowfabric_streamflow_query("nws_owp_nwm_analysis", feature_ids = c("101"), token = token)
 ```
 
 ## Troubleshooting

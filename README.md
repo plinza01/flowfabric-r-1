@@ -76,5 +76,5 @@ tbl <- flowfabric_streamflow_query("nws_owp_nwm_analysis", feature_ids = c("101"
 - Use `verbose = TRUE` in any endpoint for detailed debug output.
 
 ## Learn More
-- See the vignettes for advanced usage, authentication, and custom queries.
+- See the [vignettes](articles/index.md) for advanced usage, authentication, and custom queries.
 - All API responses are Arrow tables for high-performance analytics.

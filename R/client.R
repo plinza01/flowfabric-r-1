@@ -381,15 +381,19 @@ flowfabric_stage_query <- function(dataset_id, params = NULL, token = NULL, ...,
 #' }
 #' @export
 flowfabric_get_dataset <- function(dataset_id, token = NULL, verbose = FALSE) {
-  if (is.null(token)) {
-    token <- get_bearer_token()
-    if (verbose) message("[flowfabric_get_dataset] Using token from get_bearer_token()")
-  }
-  endpoint <- paste0("/v1/datasets/", dataset_id)
-  resp <- flowfabric_get(endpoint, token = token, verbose = verbose)
-  if (verbose) message("[flowfabric_get_dataset] Parsing response as JSON.")
-  httr2::resp_body_json(resp)
+  # if (is.null(token)) {
+  #   token <- get_bearer_token()
+  #   if (verbose) message("[flowfabric_get_dataset] Using token from get_bearer_token()")
+  # }
+  # endpoint <- paste0("/v1/datasets/", dataset_id)
+  # resp <- flowfabric_get(endpoint, token = token, verbose = verbose)
+  # if (verbose) message("[flowfabric_get_dataset] Parsing response as JSON.")
+  # httr2::resp_body_json(resp)
+  base <- 'https://flowfabric.lynker-spatial.com/'
+  jsonlite::fromJSON(paste0(base, dataset_id), simplifyDataFrame = TRUE) 
+  
 }
+
 
 
 #' Get latest run for a dataset

@@ -1,4 +1,9 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
 <url><loc>/articles/advanced.html</loc></url>
 <url><loc>/articles/authentication.html</loc></url>
 <url><loc>/articles/getting-started.html</loc></url>
@@ -21,10 +26,5 @@
 <url><loc>/reference/flowfabric_ratings_estimate.html</loc></url>
 <url><loc>/reference/flowfabricr-package.html</loc></url>
 <url><loc>/reference/get_bearer_token.html</loc></url>
-<url><loc>/404.html</loc></url>
-<url><loc>/authors.html</loc></url>
-<url><loc>/index.html</loc></url>
-<url><loc>/LICENSE-text.html</loc></url>
-<url><loc>/LICENSE.html</loc></url>
 </urlset>
 

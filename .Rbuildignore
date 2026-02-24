@@ -1,7 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
-^cran-comments\.md$
 ^.github$
 ^_pkgdown\.yaml$
 ^docs$
